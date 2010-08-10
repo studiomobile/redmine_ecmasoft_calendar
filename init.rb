@@ -1,10 +1,17 @@
 require 'redmine'
 
-Redmine::Plugin.register :redmine_ecmasoft_calendar do
+Redmine::Plugin.register :ecmasoft_calendar do
   name 'Redmine Ecmasoft Calendar plugin'
-  author 'Author name'
-  description 'This is a plugin for Redmine'
+  author 'Maxim Dobriakov'
+  description 'Show calendar of work and week days'
   version '0.0.1'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
+  url 'http://github.com/martynovs/redmine_ecmasoft_calendar'
+  author_url 'http://ecmasoft.com'
+
+  permission :ecmasoft_calendar, { :ecmasoft_calendar => [ :index ] }, :require => :member
+
+  menu :top_menu, :schedules_page, { :controller => 'ecmasoft_calendar', :action => 'index' },
+       :after => :my_page, :caption => "EcmaSoft Calendar",
+       :if => Proc.new { User.current.allowed_to?(:ecmasoft_calendar, nil, :global => true) }
+
 end

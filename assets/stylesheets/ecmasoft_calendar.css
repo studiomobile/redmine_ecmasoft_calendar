@@ -1,0 +1,13 @@
+.ecmasoft-calendar {}
+
+.ecmasoft-calendar .navigation { margin: 7px auto; width: 602px; height: 21px; text-align: center; font-weight: bold; }
+
+.ecmasoft-calendar table { margin: 0 auto; }
+.ecmasoft-calendar table thead th { color: #FFFFFF; background-color: #5C9CCC; padding: 3px 0; }
+.ecmasoft-calendar table tbody td div { width: 80px; height: 80px; }
+.ecmasoft-calendar table tbody td div.empty      { color: #2E6E9E; background-color: #FFFFFF; border: 1px solid #FFFFFF; }
+.ecmasoft-calendar table tbody td div.workday    { color: #000000; background-color: #DFEFFC; border: 1px solid #C5DBEC; }
+.ecmasoft-calendar table tbody td div.weekend    { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
+.ecmasoft-calendar table tbody td div.vacation   { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
+.ecmasoft-calendar table tbody td div.sick-leave { color: #000000; background-color: #6666ff; border: 1px solid #003399; }
+.ecmasoft-calendar table tbody td div .day       { font-weight: bold; font-size: 40px; text-align: center; margin-top: 14px; }
