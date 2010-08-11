@@ -17,4 +17,10 @@ module EcmasoftCalendarHelper
     date.strftime('%b %Y')
   end
 
+  def dropdown_with_users(users, current_user)
+    list = users.collect {|u| [u.name, u.id] }
+    list.insert(0, ["All users", 0])
+    select_tag :user_id, options_for_select(list, current_user.id)
+  end
+
 end

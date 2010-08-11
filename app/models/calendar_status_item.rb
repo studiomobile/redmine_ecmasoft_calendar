@@ -3,18 +3,17 @@ class CalendarStatusItem < ActiveRecord::Base
   STATUSES = { :workday => 0, :weekend => 1, :vacation => 2, :sick_leave => 3 }
   DAYNAMES = %w(Monday Tuesday Wednesday Thursday Friday Saturday Sunday)
 
-  named_scope :for_user, lambda { |user_id| { :conditions => { :user_id => user_id } } } 
+  named_scope :for_user, lambda { |user_id| { :conditions => { :user_id => [0, user_id] } } } 
 
-  def self.get_assigned_statuses(year, month, user_id = nil)
+  def self.get_assigned_statuses(year, month, user_id = 0)
     start_month_date = Date.new(year, month, 1)
     end_month_date = start_month_date.end_of_month
 
-    scope = CalendarStatusItem.all(:conditions => ["date BETWEEN ? AND ?", start_month_date, end_month_date])
-    scope = scope.for_user(user_id) if user_id
-    scope
+    scope = CalendarStatusItem.for_user(user_id)
+    scope.all(:conditions => ["date BETWEEN ? AND ?", start_month_date, end_month_date])
   end
 
-  def self.get_month_statuses(year, month, user_id = nil)
+  def self.get_month_statuses(year, month, user_id = 0)
     days = []
 
     statuses = CalendarStatusItem.get_assigned_statuses(year, month, user_id)
@@ -41,7 +40,7 @@ class CalendarStatusItem < ActiveRecord::Base
     days
   end
 
-  def self.grouped_month_statuses(year, month, user_id = nil)
+  def self.grouped_month_statuses(year, month, user_id = 0)
     statuses = CalendarStatusItem.get_month_statuses(year, month, user_id)
     weeks = []
     statuses.in_groups_of(7) {|g| weeks << g }

@@ -1,44 +1,23 @@
 <% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'ecmasoft_calendar', :plugin => 'redmine_ecmasoft_calendar' %>
+  <%= stylesheet_link_tag 'ecmasoft_calendar', :plugin => 'redmine_ecmasoft_calendar' %>
+
+  <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_ecmasoft_calendar' %>
+  <%= javascript_tag("jQuery.noConflict();") %>
+  <%= javascript_include_tag 'ecmasoft_calendar.js', :plugin => 'redmine_ecmasoft_calendar' %>
 <% end %>
 
 <div class="ecmasoft-calendar">
-  <div>
-    Filter
+  <div class="dim-screen">
+    <%= image_tag "ajax-loader.gif", :plugin => 'redmine_ecmasoft_calendar' %>
   </div>
-
-  <div class="navigation">
-    <% last_month = @date.last_month %>
-    <% next_month = @date.next_month %>
-
-    <%= link_to format_month(@date.last_month), ecmasoft_calendar_path(last_month.year, last_month.month) %>
-    &lt;&lt;
-    <%= format_month(@date) %>
-    &gt;&gt;
-    <%= link_to format_month(@date.next_month), ecmasoft_calendar_path(next_month.year, next_month.month) %>
-  </div>
-
-  <table class="calendar" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <% 7.times do |i| %>
-          <th><%= CalendarStatusItem::DAYNAMES[i] %></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @weeks.each do |week| %>
-        <tr>
-          <% week.each do |day| %>
-            <td>
-              <div class="<%= day_status(day) %>">
-                <div class="day"><%= day[:date].day if day %></div>
-              </div>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
   
+  <div class="filters">
+    <div class="row1">
+      Selected user: <%= dropdown_with_users(@users, @current_user_id) %>
+    </div>
+  </div>
+
+  <div class="calendar-placeholder">
+    <%= render :partial => "calendar" %>
+  </div>
 </div>
