@@ -24,9 +24,7 @@
       <tr>
         <% week.each do |day| %>
           <td>
-            <div class="<%= day_status(day) %>">
-              <div class="day"><%= day[:date].day if day %></div>
-            </div>
+            <%= render :partial => "cell", :locals => { :day => day, :user_id => @current_user_id } %>
           </td>
         <% end %>
       </tr>
