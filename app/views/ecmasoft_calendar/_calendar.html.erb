@@ -14,19 +14,41 @@
 <table class="calendar" cellpadding="0" cellspacing="0">
   <thead>
     <tr>
-      <% 7.times do |i| %>
-        <th><%= CalendarStatusItem::DAYNAMES[i] %></th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th>Saturday</th>
+      <th>Sunday</th>
+      <% if @current_user_id != 0 %>
+        <th class="worktime-per-week">Worktime per week</th>
+        <th class="worktime-per-month">Worktime per month</th>
       <% end %>
     </tr>
   </thead>
   <tbody>
-    <% @weeks.each do |week| %>
+    <% @weeks.each_with_index do |week, index| %>
       <tr>
         <% week.each do |day| %>
           <td>
             <%= render :partial => "cell", :locals => { :day => day, :month => @date.month, :user_id => @current_user_id } %>
           </td>
         <% end %>
+
+        <% if @current_user_id != 0 %>
+          <td class="worktime-per-week"></td>
+
+          <% if index == 0 %>
+            <td rowspan="<%= @weeks.count %>" class="worktime-per-month">
+              <div class="current-worktime"></div>
+              <div class="total-worktime"></div>
+            </td>
+          <% else %>
+            <td></td>
+          <% end %>
+        <% end %>
+
       </tr>
     <% end %>
   </tbody>

@@ -1,25 +1,51 @@
 (function($) {
 
     $(document).ready(function() {
-        var update_calendar = function(year, month, user_id) {
+        var updateCalendar = function(year, month, user_id) {
             var url = "/ecmasoft_calendar/:year/:month?user_id=:user_id";
-            url = url.replace(":year", year)
-            url = url.replace(":month", month)
-            url = url.replace(":user_id", user_id)
+            url = url.replace(":year", year);
+            url = url.replace(":month", month);
+            url = url.replace(":user_id", user_id);
 
             $(".dim-screen").show();
             $(".calendar-placeholder").load(url, { user_id: $("#user_id").val() }, function() {
                 $(".dim-screen").hide();
+                recalculateWorktime();
             });
         };
 
-        var change_status = function(self, status) {
+        var changeStatus = function(self, status) {
             var date = self.attr("data-date");
             var month = $("#current_month").val();
             var url = "/ecmasoft_calendar/set_status";
 
-            self.closest("td").load(url, { date: date, month: month, user_id: $("#user_id").val(), status: status })
+            self.closest("td").load(url, { date: date, month: month, user_id: $("#user_id").val(), status: status }, function() {
+                recalculateWorktime();
+            });
         };
+
+        var recalculateWorktime = function() {
+            $("td.worktime-per-week").each(function() {
+                var row = $(this).closest("tr");
+                var worktimes = $(".cell[data-worktime]", row).map(function(index, elem) {
+                    return $(elem).attr("data-worktime");
+                });
+                var totalWorktime = $.sum(worktimes);
+                $(this).text("= " + totalWorktime + " hrs");
+            });
+
+            var totalWorktime = $(".cell.workday").not(".other-month").length * 8;
+            $("td.worktime-per-month .total-worktime").text("from " + totalWorktime + " hrs");
+
+            var worktimes = $(".cell.workday").not(".other-month").map(function(index, elem) {
+                return $(elem).attr("data-worktime");
+            });
+            var currentWorktime = $.sum(worktimes);
+            var percent = Math.round((currentWorktime / totalWorktime) * 100);  
+            $("td.worktime-per-month .current-worktime").text("= " + currentWorktime + " hrs (" + percent + "%)");
+        };
+
+        recalculateWorktime();
 
 
         $(".navigation-link").live("click", function() {
@@ -27,7 +53,7 @@
             var month = $(this).attr("data-month");
             var user_id = $("#user_id").val();
 
-            update_calendar(year, month, user_id)
+            updateCalendar(year, month, user_id)
         });
 
         $("#user_id").change(function() {
@@ -35,29 +61,28 @@
             var month = $("#current_month").val();
             var user_id = $("#user_id").val();
 
-            update_calendar(year, month, user_id)
+            updateCalendar(year, month, user_id)
         });
 
         $(".set-weekend").live("click", function() {
-            change_status($(this), 0);
+            changeStatus($(this), 0);
         });
 
         $(".set-workday").live("click", function() {
-            change_status($(this), 1);
+            changeStatus($(this), 1);
         });
 
         $(".set-vacation").live("click", function() {
-            change_status($(this), 2);
+            changeStatus($(this), 2);
         });
 
         $(".set-sick-leave").live("click", function() {
-            change_status($(this), 4);
+            changeStatus($(this), 4);
         });
 
         $(".undo").live("click", function() {
-            change_status($(this), -1);
+            changeStatus($(this), -1);
         });
-
     });
 
 })(jQuery);

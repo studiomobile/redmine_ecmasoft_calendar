@@ -9,17 +9,29 @@
 
 .ecmasoft-calendar .calendar-placeholder table { margin: 0 auto; }
 .ecmasoft-calendar .calendar-placeholder table thead th { color: #FFFFFF; background-color: #5C9CCC; padding: 3px 0; }
-.ecmasoft-calendar .calendar-placeholder table tbody td div.cell { width: 80px; height: 80px; position: relative; }
+.ecmasoft-calendar .calendar-placeholder table thead th.worktime-per-week  { width: 150px; }
+.ecmasoft-calendar .calendar-placeholder table thead th.worktime-per-month { width: 200px; }
+
+.ecmasoft-calendar .calendar-placeholder table tbody td div.cell        { width: 80px; height: 80px; position: relative; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/active-work.png) no-repeat 0 80px; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.empty       { color: #2E6E9E; background-color: #FFFFFF; border: 1px solid #FFFFFF; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.workday     { color: #000000; background-color: #DFEFFC; border: 1px solid #C5DBEC; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.weekend     { color: #777777 !important; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
-.ecmasoft-calendar .calendar-placeholder table tbody td div.vacation    { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/vacation-icon.png) no-repeat right top; }
-.ecmasoft-calendar .calendar-placeholder table tbody td div.sick-leave  { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/sick_leave-icon.png) no-repeat right top;}
+.ecmasoft-calendar .calendar-placeholder table tbody td div.vacation    { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
+.ecmasoft-calendar .calendar-placeholder table tbody td div.sick-leave  { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
 
-.ecmasoft-calendar .calendar-placeholder table tbody td div.cell .day   { font-weight: bold; font-size: 40px; text-align: center; margin-top: 14px; }
-.ecmasoft-calendar .calendar-placeholder table tbody td div.other-month .day { font-weight: normal; font-style: italic; font-size: 10px; margin-top: 34px; }
+.ecmasoft-calendar .calendar-placeholder table tbody td div.cell .cell-icon       { display: none; height: 24px; width: 80px; position: absolute; top: 0; right: 0; }
+.ecmasoft-calendar .calendar-placeholder table tbody td div.vacation .cell-icon   { display: block; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/vacation-icon.png) no-repeat right top; }
+.ecmasoft-calendar .calendar-placeholder table tbody td div.sick-leave .cell-icon { display: block; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/sick_leave-icon.png) no-repeat right top; }
+
+.ecmasoft-calendar .calendar-placeholder table tbody td div.cell .day   { font-weight: bold; font-size: 40px; text-align: center; padding-top: 14px; }
+.ecmasoft-calendar .calendar-placeholder table tbody td div.other-month .day { font-weight: normal; font-style: italic; font-size: 10px; padding-top: 34px; }
 
 .ecmasoft-calendar .calendar-placeholder table tbody td div.cell ul.status-menu { display: none; position: absolute; bottom: 0; right: 0; list-style-type: none; padding: 0; margin: 2px 2px; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.cell:hover ul.status-menu { display: block; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.cell ul.status-menu li { float: left; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.cell ul.status-menu img { cursor: pointer; display: inline; margin: 0 1px; }
+
+.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-week  { vertical-align: middle; font-size: 20px; font-weight: bold; padding-left: 7px; }
+.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month { vertical-align: middle; }
+.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month .current-worktime { font-size: 20px; font-weight: bold; padding-left: 7px; }
+.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month .total-worktime   { font-size: 12px; font-style: italic; padding-left: 31px; }

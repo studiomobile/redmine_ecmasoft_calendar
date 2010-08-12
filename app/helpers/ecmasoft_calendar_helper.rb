@@ -44,4 +44,15 @@ module EcmasoftCalendarHelper
     day[:status] & CalendarStatusItem::SICK_LEAVE == CalendarStatusItem::SICK_LEAVE
   end
 
+  def worktime_attribute(day)
+    worktime = day[:worktime].to_i
+    "data-worktime=\"#{worktime}\" title=\"Worktime: #{worktime}\"" if worktime > 0
+  end
+
+
+  def worktime_progress(day)
+    worktime = day[:worktime].to_i
+    "style=\"background-position: 0 #{80 - 10 * worktime}px\"" if worktime > 0
+  end
+
 end

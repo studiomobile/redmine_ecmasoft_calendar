@@ -5,13 +5,17 @@ class CalendarStatusItem < ActiveRecord::Base
   VACATION = 2
   SICK_LEAVE = 4
 
-  DAYNAMES = %w(Monday Tuesday Wednesday Thursday Friday Saturday Sunday)
-
   named_scope :for_user, lambda { |user_id| { :conditions => { :user_id => [0, user_id] } } } 
 
   def self.get_assigned_statuses(from, to, user_id = 0)
     scope = CalendarStatusItem.for_user(user_id)
     scope.all(:conditions => ["date BETWEEN ? AND ?", from, to])
+  end
+
+  def self.get_time_entries(from, to, user_id = 0)
+    TimeEntry.all(:select => "SUM(hours) AS total, spent_on",
+                  :conditions => ["user_id = ? AND spent_on BETWEEN ? AND ?", user_id, from, to],
+                  :group => "spent_on")
   end
 
   def self.get_month_statuses(year, month, user_id = 0)
@@ -24,10 +28,16 @@ class CalendarStatusItem < ActiveRecord::Base
     end_date = end_month_date + (7 - end_month_date.cwday).days
 
     statuses = CalendarStatusItem.get_assigned_statuses(start_date, end_date, user_id)
+    time_entries = CalendarStatusItem.get_time_entries(start_date, end_date, user_id)
 
     start_date.step(end_date) do |date|
       date_statuses = statuses.select {|e| e.date == date }
-      days << { :status => calculate_status(date, date_statuses), :date => date }
+      time_entry = time_entries.select {|e| e.spent_on == date }.first
+
+      worktime = time_entry ? time_entry.total : nil
+      status = calculate_status(date, date_statuses)
+
+      days << { :status => status, :date => date, :worktime => worktime }
     end
 
     days
@@ -40,10 +50,6 @@ class CalendarStatusItem < ActiveRecord::Base
     weeks
   end
 
-  def self.get_day_statuses(date, user_id = 0)
-    CalendarStatusItem.for_user(user_id).all(:conditions => ["date = ?", date])
-  end
-
   def self.set_day_status(date, user_id, status)
     if user_id == 0
       return unless [WEEKEND, WORKDAY].include?(status) # reject unrestricted statuses
@@ -51,6 +57,9 @@ class CalendarStatusItem < ActiveRecord::Base
       return if [WEEKEND, WORKDAY].include?(status) # reject unrestricted statuses
       return if !User.current.admin? && User.current.id != user_id
     end
+
+    time_entries = get_time_entries(date, date, user_id)
+    return if time_entries.count != 0
 
     item = CalendarStatusItem.first(:conditions => ["date = ? AND user_id = ?", date, user_id])
     item = CalendarStatusItem.create({ :date => date, :user_id => user_id }) unless item
@@ -68,9 +77,13 @@ class CalendarStatusItem < ActiveRecord::Base
   end
 
   def self.get_day(date, user_id = 0)
-    date_statuses = get_day_statuses(date, user_id)
+    date_statuses = get_assigned_statuses(date, date, user_id)
+    time_entry = get_time_entries(date, date, user_id).first
+
     status = calculate_status(date, date_statuses)
-    { :status => status, :date => date }
+    worktime = time_entry ? time_entry.total : nil
+
+    { :status => status, :date => date, :worktime => worktime }
   end
 
 private

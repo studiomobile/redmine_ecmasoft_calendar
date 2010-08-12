@@ -1,9 +1,9 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'ecmasoft_calendar', :plugin => 'redmine_ecmasoft_calendar' %>
 
-  <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_ecmasoft_calendar' %>
+  <%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery.utils.min.js', :plugin => 'redmine_ecmasoft_calendar' %>
   <%= javascript_tag("jQuery.noConflict();") %>
-  <%= javascript_include_tag 'ecmasoft_calendar.js', :plugin => 'redmine_ecmasoft_calendar' %>
+  <%= javascript_include_tag 'jquery.arrayUtils.js', 'ecmasoft_calendar.js', :plugin => 'redmine_ecmasoft_calendar' %>
 <% end %>
 
 <div class="ecmasoft-calendar">
