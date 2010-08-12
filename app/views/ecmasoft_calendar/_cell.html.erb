@@ -13,22 +13,18 @@
         </li>
         <% end %>
       <% end %>
-      <% if user_id != 0 && workday?(day) %>
-        <% if vacation?(day) || sick_leave?(day) %>
-          <li>
-            <%= image_tag "undo.png", :class => "undo", :"data-date" => day[:date], :title => "Undo", :plugin => 'redmine_ecmasoft_calendar' %>
-          </li>
-        <% else %>
-          <% unless vacation?(day)  %>
+      <% if vacation?(day) || sick_leave?(day) %>
+        <li>
+          <%= image_tag "undo.png", :class => "undo", :"data-date" => day[:date], :title => "Undo", :plugin => 'redmine_ecmasoft_calendar' %>
+        </li>
+      <% else %>
+        <% if user_id != 0 && workday?(day) && (User.current.id == user_id || User.current.admin?) %>
           <li>
             <%= image_tag "vacation.png", :class => "set-vacation", :"data-date" => day[:date], :title => "Vacation", :plugin => 'redmine_ecmasoft_calendar' %>
           </li>
-          <% end %>
-          <% unless sick_leave?(day) %>
           <li>
             <%= image_tag "sick_leave.png", :class => "set-sick-leave", :"data-date" => day[:date], :title => "Sick leave", :plugin => 'redmine_ecmasoft_calendar' %>
           </li>
-          <% end %>
         <% end %>
       <% end %>
     </ul>

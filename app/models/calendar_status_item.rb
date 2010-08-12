@@ -55,7 +55,8 @@ class CalendarStatusItem < ActiveRecord::Base
     if user_id == 0
       return unless [WEEKEND, WORKDAY].include?(status) # reject unrestricted statuses
     else
-      return if [WEEKEND, WORKDAY].include?(status) # reject unrestricted statuses 
+      return if [WEEKEND, WORKDAY].include?(status) # reject unrestricted statuses
+      return if !User.current.admin? && User.current.id != user_id
     end
 
     item = CalendarStatusItem.first(:conditions => ["date = ? AND user_id = ?", date, user_id])
@@ -65,7 +66,12 @@ class CalendarStatusItem < ActiveRecord::Base
   end
 
   def self.undo_day_status(date, user_id)
-    CalendarStatusItem.delete_all ["date = ? AND user_id = ?", date, user_id]
+    return if user_id == 0
+    item = CalendarStatusItem.first(:conditions => ["date = ? AND user_id = ?", date, user_id])
+    if item
+      item.status = 0
+      item.save
+    end
   end
 
   def self.get_day(date, user_id = 0)
@@ -80,8 +86,8 @@ private
     date_statuses = date_statuses || []
 
     status_lvl1 = [6, 7].include?(date.cwday) ? WEEKEND : WORKDAY # default status
-    status_lvl1 = WEEKEND if date_statuses.any? { |s| s.status == WEEKEND }
-    status_lvl1 = WORKDAY if date_statuses.any? { |s| s.status == WORKDAY }
+    status_lvl1 = WEEKEND if date_statuses.any? { |s| s.status == WEEKEND && s.user_id == 0 }
+    status_lvl1 = WORKDAY if date_statuses.any? { |s| s.status == WORKDAY && s.user_id == 0 }
 
     status_lvl2 = 0
     status_lvl2 = SICK_LEAVE if date_statuses.any? { |s| s.status == SICK_LEAVE }

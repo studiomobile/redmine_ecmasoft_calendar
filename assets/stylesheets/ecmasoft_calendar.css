@@ -13,8 +13,8 @@
 .ecmasoft-calendar .calendar-placeholder table tbody td div.empty      { color: #2E6E9E; background-color: #FFFFFF; border: 1px solid #FFFFFF; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.workday    { color: #000000; background-color: #DFEFFC; border: 1px solid #C5DBEC; }
 .ecmasoft-calendar .calendar-placeholder table tbody td div.weekend    { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
-.ecmasoft-calendar .calendar-placeholder table tbody td div.vacation   { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/vacation.png) no-repeat right top; }
-.ecmasoft-calendar .calendar-placeholder table tbody td div.sick-leave { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/sick_leave.png) no-repeat right top;}
+.ecmasoft-calendar .calendar-placeholder table tbody td div.vacation   { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/vacation-icon.png) no-repeat right top; }
+.ecmasoft-calendar .calendar-placeholder table tbody td div.sick-leave { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; background: url(/plugin_assets/redmine_ecmasoft_calendar/images/sick_leave-icon.png) no-repeat right top;}
 .ecmasoft-calendar .calendar-placeholder table tbody td div.cell .day  { font-weight: bold; font-size: 40px; text-align: center; margin-top: 14px; }
 
 .ecmasoft-calendar .calendar-placeholder table tbody td div.cell ul.status-menu { display: none; position: absolute; bottom: 0; right: 0; list-style-type: none; padding: 0; margin: 2px 2px; }
