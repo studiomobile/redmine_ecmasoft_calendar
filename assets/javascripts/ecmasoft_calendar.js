@@ -11,7 +11,16 @@
             $(".calendar-placeholder").load(url, { user_id: $("#user_id").val() }, function() {
                 $(".dim-screen").hide();
             });
-        }
+        };
+
+        var change_status = function(self, status) {
+            var date = self.attr("data-date");
+            var month = $("#current_month").val();
+            var url = "/ecmasoft_calendar/set_status";
+
+            self.closest("td").load(url, { date: date, month: month, user_id: $("#user_id").val(), status: status })
+        };
+
 
         $(".navigation-link").live("click", function() {
             var year = $(this).attr("data-year");
@@ -30,38 +39,23 @@
         });
 
         $(".set-weekend").live("click", function() {
-            var date = $(this).attr("data-date");
-            var url = "/ecmasoft_calendar/set_status";
-
-            $(this).closest("td").load(url, { date: date, user_id: $("#user_id").val(), status: 0 });
+            change_status($(this), 0);
         });
 
         $(".set-workday").live("click", function() {
-            var date = $(this).attr("data-date");
-            var url = "/ecmasoft_calendar/set_status";
-
-            $(this).closest("td").load(url, { date: date, user_id: $("#user_id").val(), status: 1 })
+            change_status($(this), 1);
         });
 
         $(".set-vacation").live("click", function() {
-            var date = $(this).attr("data-date");
-            var url = "/ecmasoft_calendar/set_status";
-
-            $(this).closest("td").load(url, { date: date, user_id: $("#user_id").val(), status: 2 });
+            change_status($(this), 2);
         });
 
         $(".set-sick-leave").live("click", function() {
-            var date = $(this).attr("data-date");
-            var url = "/ecmasoft_calendar/set_status";
-
-            $(this).closest("td").load(url, { date: date, user_id: $("#user_id").val(), status: 4 });
+            change_status($(this), 4);
         });
 
         $(".undo").live("click", function() {
-            var date = $(this).attr("data-date");
-            var url = "/ecmasoft_calendar/undo";
-
-            $(this).closest("td").load(url, { date: date, user_id: $("#user_id").val() });
+            change_status($(this), -1);
         });
 
     });

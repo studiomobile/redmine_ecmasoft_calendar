@@ -24,7 +24,7 @@
       <tr>
         <% week.each do |day| %>
           <td>
-            <%= render :partial => "cell", :locals => { :day => day, :user_id => @current_user_id } %>
+            <%= render :partial => "cell", :locals => { :day => day, :month => @date.month, :user_id => @current_user_id } %>
           </td>
         <% end %>
       </tr>

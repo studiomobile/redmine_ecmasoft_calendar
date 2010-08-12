@@ -1,37 +1,35 @@
-<div class="<%= day_status(day) %> cell">
-  <% if day %>
-    <ul class="status-menu">
-      <% if user_id == 0 && User.current.admin? %>
-        <% unless workday?(day) %>
-        <li>
-          <%= image_tag "workday.png", :class => "set-workday", :"data-date" => day[:date], :title => "Workday", :plugin => 'redmine_ecmasoft_calendar' %>
-        </li>
-        <% end %>
-        <% if workday?(day) %>
-        <li>
-          <%= image_tag "weekend.png", :class => "set-weekend", :"data-date" => day[:date], :title => "Weekend", :plugin => 'redmine_ecmasoft_calendar' %>
-        </li>
-        <% end %>
+<div class="<%= day_status(day, month).join(" ") %> cell">
+  <ul class="status-menu">
+    <% if user_id == 0 && User.current.admin? %>
+      <% unless workday?(day) %>
+      <li>
+        <%= image_tag "workday.png", :class => "set-workday", :"data-date" => day[:date], :title => "Workday", :plugin => 'redmine_ecmasoft_calendar' %>
+      </li>
       <% end %>
-      <% if vacation?(day) || sick_leave?(day) %>
-        <li>
-          <%= image_tag "undo.png", :class => "undo", :"data-date" => day[:date], :title => "Undo", :plugin => 'redmine_ecmasoft_calendar' %>
-        </li>
-      <% else %>
-        <% if user_id != 0 && workday?(day) && (User.current.id == user_id || User.current.admin?) %>
-          <li>
-            <%= image_tag "vacation.png", :class => "set-vacation", :"data-date" => day[:date], :title => "Vacation", :plugin => 'redmine_ecmasoft_calendar' %>
-          </li>
-          <li>
-            <%= image_tag "sick_leave.png", :class => "set-sick-leave", :"data-date" => day[:date], :title => "Sick leave", :plugin => 'redmine_ecmasoft_calendar' %>
-          </li>
-        <% end %>
+      <% if workday?(day) %>
+      <li>
+        <%= image_tag "weekend.png", :class => "set-weekend", :"data-date" => day[:date], :title => "Weekend", :plugin => 'redmine_ecmasoft_calendar' %>
+      </li>
       <% end %>
-    </ul>
-  <% end %>
+    <% end %>
+    <% if vacation?(day) || sick_leave?(day) %>
+      <li>
+        <%= image_tag "undo.png", :class => "undo", :"data-date" => day[:date], :title => "Undo", :plugin => 'redmine_ecmasoft_calendar' %>
+      </li>
+    <% else %>
+      <% if user_id != 0 && workday?(day) && (User.current.id == user_id || User.current.admin?) %>
+        <li>
+          <%= image_tag "vacation.png", :class => "set-vacation", :"data-date" => day[:date], :title => "Vacation", :plugin => 'redmine_ecmasoft_calendar' %>
+        </li>
+        <li>
+          <%= image_tag "sick_leave.png", :class => "set-sick-leave", :"data-date" => day[:date], :title => "Sick leave", :plugin => 'redmine_ecmasoft_calendar' %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
 
   <div class="day">
-    <%= day[:date].day if day %>
+    <%= day[:date].day %>
   </div>
   
 </div>

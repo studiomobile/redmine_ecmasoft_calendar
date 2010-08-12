@@ -5,13 +5,17 @@ module EcmasoftCalendarHelper
     CalendarStatusItem::WEEKEND => "weekend",
     CalendarStatusItem::WORKDAY => "workday",
     CalendarStatusItem::WEEKEND | CalendarStatusItem::VACATION => "vacation",
+    CalendarStatusItem::WEEKEND | CalendarStatusItem::SICK_LEAVE => "sick-leave",
     CalendarStatusItem::WORKDAY | CalendarStatusItem::VACATION => "vacation",
     CalendarStatusItem::WORKDAY | CalendarStatusItem::SICK_LEAVE => "sick-leave"
   }
 
-  def day_status(day)
-    status = day.nil? ? nil : day[:status]
-    DAY_STATUS_CLASS[status]
+  def day_status(day, month)
+    status = day[:status]
+    classes = []
+    classes << DAY_STATUS_CLASS[status]
+    classes << "other-month" if day[:date].month != month
+    classes
   end
 
   def format_month(date)

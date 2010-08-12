@@ -9,33 +9,26 @@ class CalendarStatusItem < ActiveRecord::Base
 
   named_scope :for_user, lambda { |user_id| { :conditions => { :user_id => [0, user_id] } } } 
 
-  def self.get_assigned_statuses(year, month, user_id = 0)
-    start_month_date = Date.new(year, month, 1)
-    end_month_date = start_month_date.end_of_month
-
+  def self.get_assigned_statuses(from, to, user_id = 0)
     scope = CalendarStatusItem.for_user(user_id)
-    scope.all(:conditions => ["date BETWEEN ? AND ?", start_month_date, end_month_date])
+    scope.all(:conditions => ["date BETWEEN ? AND ?", from, to])
   end
 
   def self.get_month_statuses(year, month, user_id = 0)
     days = []
 
-    statuses = CalendarStatusItem.get_assigned_statuses(year, month, user_id)
-
     start_month_date = Date.new(year, month, 1)
     end_month_date = start_month_date.end_of_month
 
-    (start_month_date.cwday - 1).times { days << nil }
+    start_date = start_month_date - (start_month_date.cwday - 1).days
+    end_date = end_month_date + (7 - end_month_date.cwday).days
 
-    date = start_month_date
-    while date <= end_month_date do
+    statuses = CalendarStatusItem.get_assigned_statuses(start_date, end_date, user_id)
+
+    start_date.step(end_date) do |date|
       date_statuses = statuses.select {|e| e.date == date }
       days << { :status => calculate_status(date, date_statuses), :date => date }
-
-      date = date.next
     end
-
-    (7 - end_month_date.cwday).times { days << nil }
 
     days
   end

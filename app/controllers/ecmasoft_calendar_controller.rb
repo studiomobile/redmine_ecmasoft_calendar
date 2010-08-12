@@ -19,23 +19,18 @@ class EcmasoftCalendarController < ApplicationController
 
   def set_status
     date = Date.parse(params[:date])
+    month = params[:month].to_i
     user_id = params[:user_id].to_i
     status = params[:status].to_i
 
-    CalendarStatusItem.set_day_status(date, user_id, status)
+    if status == -1
+      CalendarStatusItem.undo_day_status(date, user_id)
+    else
+      CalendarStatusItem.set_day_status(date, user_id, status)
+    end
 
     day = CalendarStatusItem.get_day(date, user_id)
-    render :partial => "cell", :layout => false, :locals => { :day => day, :user_id => user_id }
-  end
-
-  def undo
-    date = Date.parse(params[:date])
-    user_id = params[:user_id].to_i
-
-    CalendarStatusItem.undo_day_status(date, user_id)
-
-    day = CalendarStatusItem.get_day(date, user_id)
-    render :partial => "cell", :layout => false, :locals => { :day => day, :user_id => user_id }
+    render :partial => "cell", :layout => false, :locals => { :day => day, :month => month, :user_id => user_id }
   end
 
 private
