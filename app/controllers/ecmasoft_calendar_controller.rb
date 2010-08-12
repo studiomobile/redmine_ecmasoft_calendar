@@ -1,8 +1,10 @@
 class EcmasoftCalendarController < ApplicationController
   unloadable
 
+  before_filter :require_ecmasoft_user
+
   def index
-    ecmasoft_group = Group.find_by_lastname "EcmaSoft"
+    ecmasoft_group = Group.find_by_lastname EcmasoftConsts::ECMASOFT_GROUP
     @users = ecmasoft_group.present? ? ecmasoft_group.users : []
     @current_user_id =  (params[:user_id] || User.current.id).to_i
 
@@ -35,5 +37,17 @@ class EcmasoftCalendarController < ApplicationController
     day = CalendarStatusItem.get_day(date, user_id)
     render :partial => "cell", :layout => false, :locals => { :day => day, :user_id => user_id }
   end
+
+private
+
+  def require_ecmasoft_user
+    return unless require_login
+    unless User.current.groups.any? {|g| g.lastname == EcmasoftConsts::ECMASOFT_GROUP}
+      render_403
+      return false
+    end
+    true
+  end
+
 
 end
