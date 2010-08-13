@@ -2,14 +2,14 @@
 <table cellpadding="0" cellspacing="0" style="width: 100%; font-size: 14px; font-family: sans-serif;">
   <thead>
     <tr>
-      <th style="color: white; background-color: #5C9CCC; padding: 4px; text-align: left;" >Developer</th>
+      <th style="color: white; background-color: #5C9CCC; padding: 4px; text-align: left;" >Employee</th>
       <th style="color: white; background-color: #5C9CCC; padding: 4px; text-align: left;" >Tracked time for current week</th>
       <th style="color: white; background-color: #5C9CCC; padding: 4px; text-align: left;" >Tracked time for current month</th>
     </tr>
   </thead>
   <tbody>
     <% @subordinates.each do |s| %>
-      <tr>
+      <tr <%= "style=\"color: red\"" if s.show_warning  %> >
         <td style="border-bottom: 1px solid gray; padding: 4px;"><%= s.name %></td>
         <td style="border-bottom: 1px solid gray; padding: 4px;">
           <%= "#{s.week_worktime} hrs" %>
