@@ -1,11 +1,6 @@
 class CalendarStatusItem < ActiveRecord::Base
 
-  WEEKEND = 0
-  WORKDAY = 1
-  VACATION = 2
-  SICK_LEAVE = 4
-
-  named_scope :for_user, lambda { |user_id| { :conditions => { :user_id => [0, user_id] } } } 
+  named_scope :for_user, lambda { |user_id| { :conditions => { :user_id => [0, user_id] } } }
 
   def self.get_assigned_statuses(from, to, user_id = 0)
     scope = CalendarStatusItem.for_user(user_id)
@@ -31,7 +26,7 @@ class CalendarStatusItem < ActiveRecord::Base
       worktime = time_entry ? time_entry.total : nil
       status = calculate_status(date, date_statuses)
 
-      days << { :status => status, :date => date, :worktime => worktime }
+      days << DayStatus.new(date, status, worktime)
     end
 
     days
@@ -56,9 +51,9 @@ class CalendarStatusItem < ActiveRecord::Base
 
   def self.set_day_status(date, user_id, status)
     if user_id == 0
-      return unless [WEEKEND, WORKDAY].include?(status) # reject unrestricted statuses
+      return unless [DayStatus::WEEKEND, DayStatus::WORKDAY].include?(status) # reject unrestricted statuses
     else
-      return if [WEEKEND, WORKDAY].include?(status) # reject unrestricted statuses
+      return if [DayStatus::WEEKEND, DayStatus::WORKDAY].include?(status) # reject unrestricted statuses
       return if !User.current.admin? && User.current.id != user_id
     end
 
@@ -87,12 +82,12 @@ class CalendarStatusItem < ActiveRecord::Base
     status = calculate_status(date, date_statuses)
     worktime = time_entry ? time_entry.total : nil
 
-    { :status => status, :date => date, :worktime => worktime }
+    DayStatus.new(date, status, worktime)
   end
 
   def self.workdays_count(from, to, user_id)
     statuses = get_statuses(from, to, user_id)
-    statuses.select {|s| s[:status] & WORKDAY == WORKDAY && s[:status] & VACATION != VACATION && s[:status] & SICK_LEAVE != SICK_LEAVE }.count
+    statuses.select {|s| s.workday? }.count
   end
 
 private
@@ -100,13 +95,13 @@ private
   def self.calculate_status(date, date_statuses)
     date_statuses = date_statuses || []
 
-    status_lvl1 = [6, 7].include?(date.cwday) ? WEEKEND : WORKDAY # default status
-    status_lvl1 = WEEKEND if date_statuses.any? { |s| s.status == WEEKEND && s.user_id == 0 }
-    status_lvl1 = WORKDAY if date_statuses.any? { |s| s.status == WORKDAY && s.user_id == 0 }
+    status_lvl1 = [6, 7].include?(date.cwday) ? DayStatus::WEEKEND : DayStatus::WORKDAY # default status
+    status_lvl1 = DayStatus::WEEKEND if date_statuses.any? { |s| s.status == DayStatus::WEEKEND && s.user_id == 0 }
+    status_lvl1 = DayStatus::WORKDAY if date_statuses.any? { |s| s.status == DayStatus::WORKDAY && s.user_id == 0 }
 
     status_lvl2 = 0
-    status_lvl2 = SICK_LEAVE if date_statuses.any? { |s| s.status == SICK_LEAVE }
-    status_lvl2 = VACATION if date_statuses.any? { |s| s.status == VACATION }
+    status_lvl2 = DayStatus::SICK_LEAVE if date_statuses.any? { |s| s.status == DayStatus::SICK_LEAVE }
+    status_lvl2 = DayStatus::VACATION if date_statuses.any? { |s| s.status == DayStatus::VACATION }
 
     status_lvl1 | status_lvl2
   end

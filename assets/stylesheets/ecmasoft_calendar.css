@@ -33,5 +33,5 @@
 
 .ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-week  { vertical-align: middle; font-size: 20px; font-weight: bold; padding-left: 7px; }
 .ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month { vertical-align: middle; }
-.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month .current-worktime { font-size: 20px; font-weight: bold; padding-left: 7px; }
-.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month .total-worktime   { font-size: 12px; font-style: italic; padding-left: 31px; }
+.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month .current-worktime { font-size: 16px; font-weight: bold; padding-left: 7px; }
+.ecmasoft-calendar .calendar-placeholder table tbody td.worktime-per-month .total-worktime   { font-size: 12px; font-style: italic; padding-left: 29px; }
