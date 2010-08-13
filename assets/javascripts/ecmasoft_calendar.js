@@ -1,6 +1,9 @@
 (function($) {
 
     $(document).ready(function() {
+
+        $("#user_id").val($("#user_id option[selected]").val()); // Reset dropdown after refresh
+
         var updateCalendar = function(year, month, user_id) {
             var url = "/ecmasoft_calendar/:year/:month?user_id=:user_id";
             url = url.replace(":year", year);
