@@ -18,19 +18,13 @@ class CalendarStatusItem < ActiveRecord::Base
                   :group => "spent_on")
   end
 
-  def self.get_month_statuses(year, month, user_id = 0)
+  def self.get_statuses(from, to, user_id)
     days = []
 
-    start_month_date = Date.new(year, month, 1)
-    end_month_date = start_month_date.end_of_month
+    statuses = CalendarStatusItem.get_assigned_statuses(from, to, user_id)
+    time_entries = CalendarStatusItem.get_time_entries(from, to, user_id)
 
-    start_date = start_month_date - (start_month_date.cwday - 1).days
-    end_date = end_month_date + (7 - end_month_date.cwday).days
-
-    statuses = CalendarStatusItem.get_assigned_statuses(start_date, end_date, user_id)
-    time_entries = CalendarStatusItem.get_time_entries(start_date, end_date, user_id)
-
-    start_date.step(end_date) do |date|
+    from.step(to) do |date|
       date_statuses = statuses.select {|e| e.date == date }
       time_entry = time_entries.select {|e| e.spent_on == date }.first
 
@@ -41,6 +35,16 @@ class CalendarStatusItem < ActiveRecord::Base
     end
 
     days
+  end
+
+  def self.get_month_statuses(year, month, user_id = 0)
+    start_month_date = Date.new(year, month, 1)
+    end_month_date = start_month_date.end_of_month
+
+    start_date = start_month_date - (start_month_date.cwday - 1).days
+    end_date = end_month_date + (7 - end_month_date.cwday).days
+
+    get_statuses(start_date, end_date, user_id)
   end
 
   def self.grouped_month_statuses(year, month, user_id = 0)
@@ -84,6 +88,11 @@ class CalendarStatusItem < ActiveRecord::Base
     worktime = time_entry ? time_entry.total : nil
 
     { :status => status, :date => date, :worktime => worktime }
+  end
+
+  def self.workdays_count(from, to, user_id)
+    statuses = get_statuses(from, to, user_id)
+    statuses.select {|s| s[:status] & WORKDAY == WORKDAY && s[:status] & VACATION != VACATION && s[:status] & SICK_LEAVE != SICK_LEAVE }.count
   end
 
 private
