@@ -45,13 +45,13 @@ module EcmasoftCalendarHelper
   end
 
   def worktime_attribute(day)
-    worktime = day[:worktime].to_i
+    worktime = day[:worktime].to_f
     "data-worktime=\"#{worktime}\" title=\"Worktime: #{worktime}\"" if worktime > 0
   end
 
 
   def worktime_progress(day)
-    worktime = day[:worktime].to_i
+    worktime = day[:worktime].to_f
     "style=\"background-position: 0 #{80 - 10 * worktime}px\"" if worktime > 0
   end
 

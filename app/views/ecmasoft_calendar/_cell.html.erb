@@ -19,7 +19,7 @@
           <li>
             <%= image_tag "undo.png", :class => "undo", :"data-date" => day[:date], :title => "Undo", :plugin => 'redmine_ecmasoft_calendar' %>
           </li>
-        <% elsif user_id != 0 && workday?(day) && day[:worktime].to_i == 0 %>
+        <% elsif user_id != 0 && workday?(day) && day[:worktime].to_f == 0 %>
           <li>
             <%= image_tag "vacation.png", :class => "set-vacation", :"data-date" => day[:date], :title => "Vacation", :plugin => 'redmine_ecmasoft_calendar' %>
           </li>
