@@ -10,8 +10,10 @@ Redmine::Plugin.register :ecmasoft_calendar do
 
   permission :ecmasoft_calendar, { :ecmasoft_calendar => [ :index ] }, :require => :member
 
+  settings :default => {'group_name' => 'EcmaSoft', 'manager_role' => 'Manager'}, :partial => 'settings/calendar_settings'
+
   menu :top_menu, :schedules_page, { :controller => 'ecmasoft_calendar', :action => 'index' },
        :after => :my_page, :caption => "EcmaSoft Calendar",
-       :if => Proc.new { User.current.groups.any? {|g| g.lastname == EcmasoftConsts::ECMASOFT_GROUP} }
+       :if => Proc.new { User.current.groups.include?(Ecmasoft::Settings.group) }
 
 end

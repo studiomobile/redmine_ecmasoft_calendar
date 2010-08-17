@@ -4,7 +4,7 @@ class EcmasoftCalendarController < ApplicationController
   before_filter :require_ecmasoft_user
 
   def index
-    ecmasoft_group = Group.find_by_lastname EcmasoftConsts::ECMASOFT_GROUP
+    ecmasoft_group = Ecmasoft::Settings.group
     @users = ecmasoft_group.present? ? ecmasoft_group.users : []
     @current_user_id =  (params[:user_id] || User.current.id).to_i
 
@@ -37,7 +37,7 @@ private
 
   def require_ecmasoft_user
     return unless require_login
-    unless User.current.groups.any? {|g| g.lastname == EcmasoftConsts::ECMASOFT_GROUP}
+    unless User.current.groups.include?(Ecmasoft::Settings.group)
       render_403
       return false
     end
