@@ -2,16 +2,18 @@
 
     $(document).ready(function() {
 
+        var authenticity_token = $('meta[name=csrf-token]').attr('content');
+
         $("#user_id").val($("#user_id option[selected]").val()); // Reset dropdown after refresh
 
         var updateCalendar = function(year, month, user_id) {
-            var url = "/ecmasoft_calendar/:year/:month?user_id=:user_id";
+            var url = "/company_calendar/:year/:month?user_id=:user_id";
             url = url.replace(":year", year);
             url = url.replace(":month", month);
             url = url.replace(":user_id", user_id);
 
             $(".dim-screen").show();
-            $(".calendar-placeholder").load(url, { user_id: $("#user_id").val() }, function() {
+            $(".calendar-placeholder").load(url, { user_id: $("#user_id").val(), authenticity_token: authenticity_token }, function() {
                 $(".dim-screen").hide();
                 recalculateWorktime();
             });
@@ -20,9 +22,9 @@
         var changeStatus = function(self, status) {
             var date = self.attr("data-date");
             var month = $("#current_month").val();
-            var url = "/ecmasoft_calendar/set_status";
+            var url = "/company_calendar/set_status";
 
-            self.closest("td").load(url, { date: date, month: month, user_id: $("#user_id").val(), status: status }, function() {
+            self.closest("td").load(url, { date: date, month: month, user_id: $("#user_id").val(), status: status, authenticity_token: authenticity_token }, function() {
                 recalculateWorktime();
             });
         };

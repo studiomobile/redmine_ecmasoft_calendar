@@ -1,4 +1,4 @@
-class EcmasoftNotificationMailer < Mailer
+class StudiomobileNotificationMailer < Mailer
 
   def self.prepare_and_send_notification
     calculator = WorktimeCalculator.new
@@ -15,7 +15,7 @@ class EcmasoftNotificationMailer < Mailer
   def notification(manager, subordinates)
     title = (subordinates.any?{|s| s.show_warning } ? "[NEED ATTENTION] " : "") + "Timesheet notification"
 
-    from "no-reply@ecmasoft.com"
+    from "no-reply@studiomobile.ru"
     recipients manager.mail
     subject title
     body :subordinates => subordinates

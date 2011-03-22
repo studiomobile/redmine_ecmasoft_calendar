@@ -1,11 +1,11 @@
-class EcmasoftCalendarController < ApplicationController
+class CompanyCalendarController < ApplicationController
   unloadable
 
-  before_filter :require_ecmasoft_user
+  before_filter :require_company_user
 
   def index
-    ecmasoft_group = Ecmasoft::Settings.group
-    @users = ecmasoft_group.present? ? ecmasoft_group.users : []
+    company_group = StudioMobile::Settings.group
+    @users = company_group.present? ? company_group.users : []
     @current_user_id =  (params[:user_id] || User.current.id).to_i
 
     year = params[:year].to_i
@@ -35,9 +35,9 @@ class EcmasoftCalendarController < ApplicationController
 
 private
 
-  def require_ecmasoft_user
+  def require_company_user
     return unless require_login
-    unless User.current.groups.include?(Ecmasoft::Settings.group)
+    unless User.current.groups.include?(StudioMobile::Settings.group)
       render_403
       return false
     end

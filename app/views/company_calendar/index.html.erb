@@ -1,0 +1,23 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'studiomobile_calendar', :plugin => 'redmine_studiomobile_calendar' %>
+
+  <%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery.utils.min.js', :plugin => 'redmine_studiomobile_calendar' %>
+  <%= javascript_tag("jQuery.noConflict();") %>
+  <%= javascript_include_tag 'jquery.arrayUtils.js', 'studiomobile_calendar.js', :plugin => 'redmine_studiomobile_calendar' %>
+<% end %>
+
+<div class="studiomobile-calendar">
+  <div class="dim-screen">
+    <%= image_tag "ajax-loader.gif", :plugin => 'redmine_studiomobile_calendar' %>
+  </div>
+  
+  <div class="filters">
+    <div class="row1">
+      Selected user: <%= dropdown_with_users(@users, @current_user_id) %>
+    </div>
+  </div>
+
+  <div class="calendar-placeholder">
+    <%= render :partial => "calendar" %>
+  </div>
+</div>

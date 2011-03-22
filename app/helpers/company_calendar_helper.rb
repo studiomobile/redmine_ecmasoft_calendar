@@ -1,4 +1,4 @@
-module EcmasoftCalendarHelper
+module CompanyCalendarHelper
 
   DAY_STATUS_CLASS = {
     nil => "empty",

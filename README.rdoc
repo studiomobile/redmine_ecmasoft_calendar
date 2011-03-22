@@ -1,3 +1,2 @@
-= ecmasoft_calendar
+= Studio Mobile Calendar
 
-Description goes here

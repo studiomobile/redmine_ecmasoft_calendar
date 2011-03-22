@@ -2,7 +2,7 @@ require 'ostruct'
 
 class WorktimeCalculator
 
-  def initialize(group = Ecmasoft::Settings.group)
+  def initialize(group = StudioMobile::Settings.group)
     @group = group
   end
 
@@ -49,7 +49,7 @@ class WorktimeCalculator
   end
 
   def managers
-    user_ids = Ecmasoft::Settings.manager_role.members.map(&:user_id).uniq
+    user_ids = StudioMobile::Settings.manager_role.members.map(&:user_id).uniq
 
     User.all(:conditions => ["users.id IN (?) AND users.status = 1 AND groups_users_join.group_id = ?", user_ids, @group.id], :joins => [:groups])
   end
