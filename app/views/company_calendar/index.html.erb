@@ -1,7 +1,7 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'studiomobile_calendar', :plugin => 'redmine_studiomobile_calendar' %>
 
-  <%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery.utils.min.js', :plugin => 'redmine_studiomobile_calendar' %>
+  <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_studiomobile_calendar' %>
   <%= javascript_tag("jQuery.noConflict();") %>
   <%= javascript_include_tag 'jquery.arrayUtils.js', 'studiomobile_calendar.js', :plugin => 'redmine_studiomobile_calendar' %>
 <% end %>
