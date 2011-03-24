@@ -1,8 +1,8 @@
 <div class="navigation">
-  <% last_month = @date.last_month %>
+  <% last_month = @date.prev_month %>
   <% next_month = @date.next_month %>
 
-  <%= link_to format_month(@date.last_month), "javascript:void(0)", :class => "navigation-link", :"data-year" => last_month.year, :"data-month" => last_month.month %>
+  <%= link_to format_month(last_month), "javascript:void(0)", :class => "navigation-link", :"data-year" => last_month.year, :"data-month" => last_month.month %>
   &lt;&lt;
   <%= format_month(@date) %>
   <%= hidden_field_tag :current_year, @date.year %>
