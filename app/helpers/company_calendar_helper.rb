@@ -22,7 +22,7 @@ module CompanyCalendarHelper
   end
 
   def dropdown_with_users(users, user_id)
-    list = users.collect {|u| [u.name, u.id] }
+    list = users.sort{|x, y| x.name <=> y.name }.collect {|u| [u.name, u.id] }
     list.insert(0, ["All users", 0])
     select_tag :user_id, options_for_select(list, user_id)
   end
