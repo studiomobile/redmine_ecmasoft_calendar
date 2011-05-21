@@ -85,6 +85,10 @@
             changeStatus($(this), 4);
         });
 
+        $(".set-leave-without-pay").live("click", function() {
+            changeStatus($(this), 8);
+        });
+
         $(".undo").live("click", function() {
             changeStatus($(this), -1);
         });

@@ -6,8 +6,10 @@ module CompanyCalendarHelper
     DayStatus::WORKDAY => "workday",
     DayStatus::WEEKEND | DayStatus::VACATION => "vacation",
     DayStatus::WEEKEND | DayStatus::SICK_LEAVE => "sick-leave",
+    DayStatus::WEEKEND | DayStatus::LEAVE_WITHOUT_PAY => "leave-without-pay",
     DayStatus::WORKDAY | DayStatus::VACATION => "vacation",
-    DayStatus::WORKDAY | DayStatus::SICK_LEAVE => "sick-leave"
+    DayStatus::WORKDAY | DayStatus::SICK_LEAVE => "sick-leave",
+    DayStatus::WORKDAY | DayStatus::LEAVE_WITHOUT_PAY => "leave-without-pay"
   }
 
   def day_status(day, month)
@@ -45,6 +47,7 @@ module CompanyCalendarHelper
     lines = []
     lines << "Vacation" if day.vacation?
     lines << "Sick leave" if day.sick_leave?
+    lines << "Leave without pay" if day.leave_without_pay?
     lines << "Worktime: #{worktime}" if worktime > 0
 
     "title=\"#{lines.join("\n")}\"" unless lines.empty?

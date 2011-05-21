@@ -102,6 +102,7 @@ private
     status_lvl2 = 0
     status_lvl2 = DayStatus::SICK_LEAVE if date_statuses.any? { |s| s.status == DayStatus::SICK_LEAVE }
     status_lvl2 = DayStatus::VACATION if date_statuses.any? { |s| s.status == DayStatus::VACATION }
+    status_lvl2 = DayStatus::LEAVE_WITHOUT_PAY if date_statuses.any? { |s| s.status == DayStatus::LEAVE_WITHOUT_PAY }
 
     status_lvl1 | status_lvl2
   end

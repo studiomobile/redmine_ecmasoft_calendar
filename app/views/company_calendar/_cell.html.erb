@@ -15,7 +15,7 @@
         <% end %>
       <% end %>
       <% if User.current.id == user_id || User.current.admin? %>
-        <% if day.vacation? || day.sick_leave? %>
+        <% if day.off_day? %>
           <li>
             <%= image_tag "undo.png", :class => "undo", :"data-date" => day.date, :title => "Undo", :plugin => 'redmine_studiomobile_calendar' %>
           </li>
@@ -25,6 +25,9 @@
           </li>
           <li>
             <%= image_tag "sick_leave.png", :class => "set-sick-leave", :"data-date" => day.date, :title => "Sick leave", :plugin => 'redmine_studiomobile_calendar' %>
+          </li>
+          <li>
+            <%= image_tag "leave_without_pay.png", :class => "set-leave-without-pay", :"data-date" => day.date, :title => "Leave without pay", :plugin => 'redmine_studiomobile_calendar' %>
           </li>
         <% end %>
       <% end %>

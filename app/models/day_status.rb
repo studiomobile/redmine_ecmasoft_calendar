@@ -3,6 +3,7 @@ class DayStatus
   WORKDAY = 1
   VACATION = 2
   SICK_LEAVE = 4
+  LEAVE_WITHOUT_PAY = 8
 
   attr_accessor :date
   attr_accessor :status
@@ -18,9 +19,13 @@ class DayStatus
     self.status & WEEKEND == WEEKEND
   end
 
-  def workday?(without_vacations_and_sick_leaves = true)
+  def workday?
     res = self.status & WORKDAY == WORKDAY
-    without_vacations_and_sick_leaves && (vacation? || sick_leave?) ? false : res
+    off_day? ? false : res
+  end
+
+  def off_day?
+    vacation? || sick_leave? || leave_without_pay?
   end
 
   def vacation?
@@ -29,6 +34,10 @@ class DayStatus
 
   def sick_leave?
     self.status & SICK_LEAVE == SICK_LEAVE
+  end
+
+  def leave_without_pay?
+    self.status & LEAVE_WITHOUT_PAY == LEAVE_WITHOUT_PAY
   end
 
 end
