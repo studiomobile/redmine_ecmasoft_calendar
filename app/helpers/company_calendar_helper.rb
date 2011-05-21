@@ -30,13 +30,24 @@ module CompanyCalendarHelper
 
   def worktime_attribute(day)
     worktime = day.worktime
-    "data-worktime=\"#{worktime}\" title=\"Worktime: #{worktime}\"" if worktime > 0
+    "data-worktime=\"#{worktime}\"" if worktime > 0
   end
 
 
   def worktime_progress(day)
     worktime = day.worktime
     "style=\"background-position: 0 #{80 - 10 * worktime}px\"" if worktime > 0
+  end
+
+  def cell_title_attribute(day)
+    worktime = day.worktime
+
+    lines = []
+    lines << "Vacation" if day.status & DayStatus::VACATION == DayStatus::VACATION
+    lines << "Sick leave" if day.status & DayStatus::SICK_LEAVE == DayStatus::SICK_LEAVE
+    lines << "Worktime: #{worktime}" if worktime > 0
+
+    "title=\"#{lines.join("\n")}\"" unless lines.empty?
   end
 
 end
