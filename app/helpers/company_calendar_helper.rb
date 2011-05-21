@@ -43,8 +43,8 @@ module CompanyCalendarHelper
     worktime = day.worktime
 
     lines = []
-    lines << "Vacation" if day.status & DayStatus::VACATION == DayStatus::VACATION
-    lines << "Sick leave" if day.status & DayStatus::SICK_LEAVE == DayStatus::SICK_LEAVE
+    lines << "Vacation" if day.vacation?
+    lines << "Sick leave" if day.sick_leave?
     lines << "Worktime: #{worktime}" if worktime > 0
 
     "title=\"#{lines.join("\n")}\"" unless lines.empty?
