@@ -14,6 +14,7 @@ module CompanyCalendarHelper
     classes = []
     classes << DAY_STATUS_CLASS[day.status]
     classes << "other-month" if day.date.month != month
+    classes << "today" if day.date == Date.today
     classes
   end
 

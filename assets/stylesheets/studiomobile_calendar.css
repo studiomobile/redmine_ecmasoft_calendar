@@ -18,6 +18,7 @@
 .studiomobile-calendar .calendar-placeholder table tbody td div.weekend     { color: #777777 !important; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
 .studiomobile-calendar .calendar-placeholder table tbody td div.vacation    { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
 .studiomobile-calendar .calendar-placeholder table tbody td div.sick-leave  { color: #777777; background-color: #FFFFFF; border: 1px solid #C5DBEC; }
+.studiomobile-calendar .calendar-placeholder table tbody td div.today       { border: 1px solid #34B9CB; }
 
 .studiomobile-calendar .calendar-placeholder table tbody td div.cell .cell-icon       { display: none; height: 24px; width: 80px; position: absolute; top: 0; right: 0; }
 .studiomobile-calendar .calendar-placeholder table tbody td div.vacation .cell-icon   { display: block; background: url(/plugin_assets/redmine_studiomobile_calendar/images/vacation-icon.png) no-repeat right top; }
