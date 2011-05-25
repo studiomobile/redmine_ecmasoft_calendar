@@ -29,6 +29,11 @@
             });
         };
 
+        var formatNumber = function(i) {
+            var result =  i.toFixed(2).toString().replace(/[\.0]+$/g, "");
+            return result != "" ? result : "0";
+        }
+
         var recalculateWorktime = function() {
             $("td.worktime-per-week").each(function() {
                 var row = $(this).closest("tr");
@@ -36,18 +41,18 @@
                     return $(elem).attr("data-worktime");
                 });
                 var totalWorktime = $.sum(worktimes, function(i) { return parseFloat(i); });
-                $(this).text("= " + totalWorktime.toFixed(2) + " hrs");
+                $(this).text("= " + formatNumber(totalWorktime) + " hrs");
             });
 
             var totalWorktime = $(".cell.workday").not(".other-month").length * 8;
-            $("td.worktime-per-month .total-worktime").text("from " + totalWorktime.toFixed(2) + " hrs");
+            $("td.worktime-per-month .total-worktime").text("from " + formatNumber(totalWorktime) + " hrs");
 
             var worktimes = $(".cell.workday").not(".other-month").map(function(index, elem) {
                 return $(elem).attr("data-worktime");
             });
             var currentWorktime = $.sum(worktimes, function(i) { return parseFloat(i); });
             var percent = Math.round((currentWorktime / totalWorktime) * 100);  
-            $("td.worktime-per-month .current-worktime").text("= " + currentWorktime.toFixed(2) + " hrs (" + percent.toFixed(2) + "%)");
+            $("td.worktime-per-month .current-worktime").text("= " + formatNumber(currentWorktime) + " hrs (" + formatNumber(percent) + "%)");
         };
 
         recalculateWorktime();
