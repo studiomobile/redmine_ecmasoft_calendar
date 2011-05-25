@@ -35,19 +35,19 @@
                 var worktimes = $(".cell[data-worktime]", row).map(function(index, elem) {
                     return $(elem).attr("data-worktime");
                 });
-                var totalWorktime = $.sum(worktimes);
-                $(this).text("= " + totalWorktime + " hrs");
+                var totalWorktime = $.sum(worktimes, function(i) { return parseFloat(i); });
+                $(this).text("= " + totalWorktime.toFixed(2) + " hrs");
             });
 
             var totalWorktime = $(".cell.workday").not(".other-month").length * 8;
-            $("td.worktime-per-month .total-worktime").text("from " + totalWorktime + " hrs");
+            $("td.worktime-per-month .total-worktime").text("from " + totalWorktime.toFixed(2) + " hrs");
 
             var worktimes = $(".cell.workday").not(".other-month").map(function(index, elem) {
                 return $(elem).attr("data-worktime");
             });
-            var currentWorktime = $.sum(worktimes);
+            var currentWorktime = $.sum(worktimes, function(i) { return parseFloat(i); });
             var percent = Math.round((currentWorktime / totalWorktime) * 100);  
-            $("td.worktime-per-month .current-worktime").text("= " + currentWorktime + " hrs (" + percent + "%)");
+            $("td.worktime-per-month .current-worktime").text("= " + currentWorktime.toFixed(2) + " hrs (" + percent.toFixed(2) + "%)");
         };
 
         recalculateWorktime();
