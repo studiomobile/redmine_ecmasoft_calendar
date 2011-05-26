@@ -30,8 +30,7 @@
         };
 
         var formatNumber = function(i) {
-            var result =  i.toFixed(2).toString().replace(/[\.0]+$/g, "");
-            return result != "" ? result : "0";
+            return i.toFixed(2).toString().replace(/[0]+$/g, "").replace(/\.$/g, "");
         }
 
         var recalculateWorktime = function() {
