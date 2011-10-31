@@ -1,0 +1,33 @@
+<div class="tt-popup">
+  <h2>Please&nbsp;enter&nbsp;time&nbsp;track&nbsp;for&nbsp;<%=@date.strftime("%B&nbsp;%d,&nbsp;%Y")%></h2>
+
+  <% form_tag({:controller =>'company_calendar', :action=>'submit_tt'}, :method => :post, :id => 'tt_form') do %>
+  <input type="hidden" name="date" value="<%=@date.strftime('%Y-%m-%d')%>" />
+ <div class="buttons_panel">
+    <button id="submit" >Submit</button>
+    <button id="close" >Close</button>
+  </div>
+
+  <table id="tt_info">
+    <thead>
+      <tr>
+	<th class="project_column">Project</th>
+	<th class="tt_column">TT</th>
+	<th cass="add_tt_column">Add TT</th>
+	<th class="comment_column">Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+	<td colspan="4" class="header"><p>My Projects</p></td>
+      </tr>
+      <%= render :partial => "tt_rows", :locals => {:projects=>@my_projects, :tt => @tt, :date => @date}%>
+      
+      <tr>
+	<td colspan="4" class="header"><p>Other Projects</p></td>
+      </tr>
+      <%= render :partial => "tt_rows", :locals => {:projects=>@other_projects, :tt => @tt, :date => @date}%>
+    </tbody>
+  </table>
+  <% end %>
+</div>

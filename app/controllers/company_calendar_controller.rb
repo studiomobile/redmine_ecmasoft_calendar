@@ -17,6 +17,39 @@ class CompanyCalendarController < ApplicationController
     render :partial => "calendar", :layout => false if request.post?
   end
 
+  def tt_data
+    if params[:user_id].to_i != User.current.id
+      render :text => "User not allowed", :status => 403
+    else
+      @projects = Project.active
+      @my_projects = User.current.memberships.map {|m| m.project}.sort_by(&:lft)
+      @other_projects = @projects.reject {|p| @my_projects.include? p}.sort_by(&:lft)
+      @date = Date.strptime(params[:date], "%Y-%m-%d")
+      @tt = TimeEntry.sum("hours", :group => :project_id, :conditions => ["user_id=? and spent_on=?", User.current.id, @date])
+      @tt = @tt.inject({}) {|h, (k, v)| h[k] = v; h}
+      render :partial => "tt", :layout => false
+    end
+  end
+
+  def submit_tt
+    projects = Project.active
+    date = Date.strptime(params[:date], "%Y-%m-%d")
+    projects.each do |p|
+      tt = params["tt_#{p.id}"] || 0
+      comment = params["tt_comment_#{p.id}"] || ""
+      if tt.to_i > 0 and !comment.empty?
+        te = TimeEntry.new(:project => p, :user => User.current, :spent_on => date, :hours => tt.to_i, :comments => comment)
+        if !te.save
+          errors = te.errors.full_messages
+          error_text = p.name + "<br />" + (errors.collect { |error| '-' + error }.join("<br />")) + "<br />"
+          flash[:error] = "" if flash[:error].nil?
+          flash[:error] += error_text
+        end
+      end
+    end
+    redirect_to :action => :index, :year => date.year, :month => date.month
+  end
+
   def set_status
     date = Date.parse(params[:date])
     month = params[:month].to_i

@@ -1,6 +1,8 @@
-<div class="<%= day_status(day, month).join(" ") %> cell" <%= worktime_attribute(day)%> <%= cell_title_attribute(day)%> <%= worktime_progress(day) %> >
-    <div class="cell-icon"></div>
-
+<div class="<%= day_status(day, month).join(" ") %> cell"
+     <%= worktime_attribute(day)%> <%= cell_title_attribute(day)%>
+     <%= worktime_progress(day) %>
+     <%= date_attribute(day.date) %>>
+   <div class="cell-icon"></div>
     <ul class="status-menu">
       <% if user_id == 0 && User.current.admin? %>
         <% unless day.workday? %>

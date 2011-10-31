@@ -34,7 +34,10 @@ module CompanyCalendarHelper
     worktime = day.worktime
     "data-worktime=\"#{worktime}\"" if worktime > 0
   end
-
+  
+  def date_attribute(date)
+    "data-date=\"#{date.strftime('%Y-%m-%d')}\""
+  end
 
   def worktime_progress(day)
     worktime = day.worktime

@@ -1,0 +1,17 @@
+<% projects.each do |p| %>
+<tr>
+  <td><%= p.name %></td>
+  <td><%=link_to tt[p.id] || 0, {
+		 :controller => :timesheet,
+    :action=>:report,
+    "timesheet[date_from]" => date,
+    "timesheet[date_to]"=>date,
+    "timesheet[sort]" => "project",
+    "timesheet[users][]"=> User.current.id,
+    "timesheet[projects][]" => p.id},
+    :tabindex => -1 %>
+  </td>
+  <td><input class="hours" type="text" name="<%="tt_#{p.id}"%>"/></td>
+  <td><input class="comment" type="text" name="<%="tt_comment_#{p.id}"%>"/></td>
+</tr>
+<% end %>

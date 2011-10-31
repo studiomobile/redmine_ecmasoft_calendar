@@ -1,6 +1,7 @@
 .studiomobile-calendar { position: relative; }
-.studiomobile-calendar .dim-screen { display: none; position: absolute; width: 100%; height: 100%; opacity: 0.6; -moz-opacity: 0.6; filter: alpha(opacity=60); background-color: white; z-index: 1000; }
-.studiomobile-calendar .dim-screen img { display: block; margin: 200px auto; }
+
+.dim-screen { display: none; position: absolute; top:0px; left:0px; width: 100%; height: 100%; opacity: 0.6; -moz-opacity: 0.6; filter: alpha(opacity=60); background-color: white; z-index: 1000; }
+.dim-screen img { display: block; margin: 200px auto; }
 
 .studiomobile-calendar .filters { border-bottom: 1px solid #CCCCCC; padding-bottom: 14px; margin: 14px 0; }
 .studiomobile-calendar .filters .row1 { margin: 0 auto; width: 602px; text-align: right; }
@@ -38,3 +39,32 @@
 .studiomobile-calendar .calendar-placeholder table tbody td.worktime-per-month { vertical-align: middle; }
 .studiomobile-calendar .calendar-placeholder table tbody td.worktime-per-month .current-worktime { font-size: 16px; font-weight: bold; padding-left: 7px; }
 .studiomobile-calendar .calendar-placeholder table tbody td.worktime-per-month .total-worktime   { font-size: 12px; font-style: italic; padding-left: 29px; }
+
+.tt-placeholder {
+    background-color:#FFFFFF;
+    cursor:default;
+    top: 0px;
+    border:1px solid #999999;
+    margin-top: 15px;
+    position: absolute;
+    text-align:left;
+    width:50%;
+    left:25%;
+    z-index:1500;
+    padding: 25px 25px 20px;
+    display: none;
+}
+.tt-placeholder .tt-popup input[type=text] { outline : none; width:100%}
+.tt-placeholder .tt-popup .text-required {border: 1px solid #FF0000;}
+.tt-placeholder .tt-popup  table#tt_info {border: 1px solid #000; width:100%; padding-right:5px;}
+.tt-placeholder .tt-popup  table#tt_info tr td, table#tt_info tr th {
+    padding:0px;
+    padding-left:2px;
+    padding-right:5px
+}
+.tt-placeholder .tt-popup  table#tt_info .header {text-align:center; font-weight:bold}
+.tt-placeholder .tt-popup  table#tt_info .project_column {width:25%}
+.tt-placeholder .tt-popup  table#tt_info .tt_column {width:5%}
+.tt-placeholder .tt-popup  table#tt_info .add_tt_column {width:10%}
+.tt-placeholder .tt-popup  table#tt_info .comment_column {width:60%}
+.tt-placeholder .tt-popup  .buttons_panel {position:absolute; right:10px; top:10px}
